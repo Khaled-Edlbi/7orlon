@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# env
+.env
+!.env.example
+
+# prisma generated client
+/src/generated/
+
+# json database: scratch files from an interrupted write
+/data/*.tmp

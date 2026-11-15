@@ -1,26 +1,416 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ===========================================================================
+   Atelier — the house style
+   ---------------------------------------------------------------------------
+   Paper, ink, and five pastel plates. There are no boxes, no borders and no
+   glass: every coloured shape on the page is a photograph of a real brush
+   stroke, used as a mask over a flat fill. See `.brush` below and
+   `src/components/brush/`.
+   =========================================================================== */
+
+@theme {
+  /* The five plates the studio prints on. Fixed brand colour — these do not
+     change between light and dark; the paper behind them does. */
+  --color-plate-mint: #90f1ef;
+  --color-plate-blush: #ffd6e0;
+  --color-plate-butter: #ffef9f;
+  --color-plate-leaf: #c1fba4;
+  --color-plate-jade: #7bf1a8;
+
+  /* Each plate's saturated partner: underlines, dots, markers, hits. */
+  --color-strong-mint: #3ed6d3;
+  --color-strong-blush: #f7a3b8;
+  --color-strong-butter: #f5d95a;
+  --color-strong-leaf: #8fe06b;
+  --color-strong-jade: #3fd48a;
+
+  /* The two status inks. */
+  --color-sage: #3f8f6a;
+  --color-berry: #d82071;
+
+  /* Everything that moves in this design moves on this curve. */
+  --ease-atelier: cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+/* The Broadsheet spacing scale (density 1.25×) the prototype was laid out on.
+   Kept as raw variables so ported markup reads the same as the original. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-6: 30px;
+  --space-8: 40px;
+
+  --radius: 0.375rem;
+
+  /* --- roles: paper --- */
+  --background: #fbfaf9;
+  --foreground: #201e1d;
+  --card: #fbfaf9;
+  --card-foreground: #201e1d;
+  --popover: #fbfaf9;
+  --popover-foreground: #201e1d;
+  --primary: #201e1d;
+  --primary-foreground: #fbfaf9;
+  --secondary: #ffef9f;
+  --secondary-foreground: #201e1d;
+  --muted: #eae9e9;
+  --muted-foreground: #7d7979;
+  --accent: #3f8f6a;
+  --accent-foreground: #fbfaf9;
+  --destructive: #d82071;
+  --border: #e4e1df;
+  --input: #b9b4b1;
+  --ring: #3f8f6a;
+
+  /* --- roles: the ink ladder the prototype hard-codes --- */
+  --ink-soft: #4a4645; /* body copy */
+  --ink-mute: #7d7979; /* captions, meta */
+  --ink-faint: #605d5d; /* the smallest labels */
+  --rule: #b9b4b1; /* the unpainted strip track */
+  --frame: #eae9e9; /* behind a picture, before it loads */
+  --header-veil: rgb(255 255 255 / 0.45);
+
+  /* Charts are tonal steps of one plate, never a categorical palette. */
+  --chart-1: #3ed6d3;
+  --chart-2: #f7a3b8;
+  --chart-3: #f5d95a;
+  --chart-4: #8fe06b;
+  --chart-5: #3fd48a;
+}
+
+/* The same studio after dark: the paper turns to board, the plates do not
+   move. Nothing in the reference design uses this, but the tokens are here so
+   a theme toggle is a one-line change rather than a repaint. */
+.dark {
+  --background: #171514;
+  --foreground: #f2efec;
+  --card: #1d1b1a;
+  --card-foreground: #f2efec;
+  --popover: #1d1b1a;
+  --popover-foreground: #f2efec;
+  --primary: #f2efec;
+  --primary-foreground: #201e1d;
+  --secondary: #f5d95a;
+  --secondary-foreground: #201e1d;
+  --muted: #2a2725;
+  --muted-foreground: #a6a09c;
+  --accent: #7bf1a8;
+  --accent-foreground: #201e1d;
+  --destructive: #f7a3b8;
+  --border: #302c2a;
+  --input: #3a3634;
+  --ring: #7bf1a8;
+
+  --ink-soft: #cdc7c2;
+  --ink-mute: #a6a09c;
+  --ink-faint: #b5afab;
+  --rule: #46413e;
+  --frame: #262322;
+  --header-veil: rgb(23 21 20 / 0.72);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-frame: var(--frame);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+
+  /* next/font sets these on <body>; Tailwind's preflight targets html, so the
+     family has to be applied on body too — see @layer base. */
+  --font-sans: var(--font-forsha), ui-serif, Georgia, serif;
+  --font-scribble: var(--font-forsha-scribble), var(--font-forsha), ui-serif,
+    serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* The studio desk moves between pages that scroll and pages that do not.
+     Without a reserved gutter the scrollbar comes and goes, the centred layout
+     re-centres, and the sidebar twitches sideways on every navigation. */
+  html:has(.desk) {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    overflow-x: clip;
+  }
+
+  /* The paper. It is a sheet pinned behind the page, not part of it: fixed to
+     the viewport, so the grain holds still while the content scrolls over it,
+     and it never shifts when a page gets longer, shorter, or flips to
+     right-to-left. A fixed layer rather than `background-attachment: fixed`,
+     which iOS Safari ignores. */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* The largest the viewport gets, so a phone's collapsing toolbar never
+       uncovers a strip of bare ground at the bottom. */
+    height: 100vh;
+    height: 100lvh;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--background);
+    /* The scan is baked at 50% alpha and is mostly white, so a single pass
+       over a sheet this pale moves the page by ~2% and reads as nothing. Two
+       multiply passes compound only the dark grains: the highlights stay at
+       exactly --background instead of washing lighter than the paper. */
+    background-image:
+      url("/background-pattern.png"),
+      url("/background-pattern.png");
+    background-repeat: repeat;
+    background-size: 960px auto;
+    background-blend-mode: multiply;
+  }
+
+  .dark body::before {
+    /* The pattern is printed for paper; on board it just muddies the ground. */
+    background-image: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    @apply text-accent;
+  }
+
+  ::selection {
+    background: var(--color-plate-jade);
+    color: #201e1d;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* A slim, tinted scrollbar — WebKit only; Firefox gets the two-value
+     `scrollbar-color` below. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--rule) 70%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--color-sage) 60%, var(--rule));
+    background-clip: content-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /**
+   * The one mechanic the whole design rests on.
+   *
+   * A `.brush` element is a flat fill — `background` — cut to the silhouette of
+   * a photographed stroke. Set `--brush` to the stroke's URL and the element
+   * takes its shape; scale it, rotate it, recolour it, and it still reads as
+   * paint rather than as a rectangle with rounded corners.
+   */
+  .brush {
+    -webkit-mask-image: var(--brush);
+    mask-image: var(--brush);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  /**
+   * Dominoes. Put `.domino` on a container and its direct children arrive one
+   * after another — twelve pixels up and into focus, each a beat behind the
+   * last. Nest it (a page, then the list inside the page) and give the inner
+   * one a `--domino-base` so its first piece falls after the outer one's.
+   *
+   * Pure CSS on purpose: the animation runs whenever the elements mount, so a
+   * page that is re-keyed on navigation replays it with no script at all.
+   * `backwards`, not `both` — once a piece has landed it holds no transform,
+   * so it does not keep a stacking context it never asked for.
+   */
+  @keyframes domino-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  .domino > * {
+    animation: domino-in 0.6s var(--ease-atelier) backwards;
+    animation-delay: calc(
+      var(--domino-base, 0ms) + var(--domino-step, 70ms) * var(--n, 0)
+    );
+  }
+
+  .domino > :nth-child(1) { --n: 0; }
+  .domino > :nth-child(2) { --n: 1; }
+  .domino > :nth-child(3) { --n: 2; }
+  .domino > :nth-child(4) { --n: 3; }
+  .domino > :nth-child(5) { --n: 4; }
+  .domino > :nth-child(6) { --n: 5; }
+  .domino > :nth-child(7) { --n: 6; }
+  .domino > :nth-child(8) { --n: 7; }
+  .domino > :nth-child(9) { --n: 8; }
+  .domino > :nth-child(10) { --n: 9; }
+  .domino > :nth-child(11) { --n: 10; }
+  .domino > :nth-child(12) { --n: 11; }
+  /* Past a dozen the row has made its point; the rest land together. */
+  .domino > :nth-child(n + 13) { --n: 12; }
+
+  /**
+   * Dominoes that have not been reached yet. `<Reveal>` holds a section in
+   * this state until it scrolls into view, then swaps the class for `.domino`
+   * and the pieces fall. Only for content below the fold: it stays invisible
+   * until script runs (see the <noscript> rule in layout.tsx for when it
+   * never does).
+   */
+  .domino-wait > * {
+    opacity: 0;
+  }
+
+  /* A cascade nested inside a waiting one waits too. Without this the inner
+     pieces would play the moment they mounted — off screen, to nobody. Held
+     at `none`, they start when the outer container stops waiting, which is
+     what lets one section be a single series from its first piece to its
+     last. */
+  .domino-wait .domino > * {
+    animation-name: none;
+  }
+
+  /** A page arriving. The wrapper in `<PageTransition>` wears this. */
+  @keyframes page-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .page-enter {
+    animation: page-in 0.45s var(--ease-atelier) backwards;
+  }
+
+  /** A picture on the wall: soft-cornered, sunk into the paper. */
+  .atelier-frame {
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--frame);
+    box-shadow: 0 30px 70px rgb(32 30 29 / 0.14);
+  }
+
+  .dark .atelier-frame {
+    box-shadow: 0 30px 70px rgb(0 0 0 / 0.4);
+  }
+
+  /** The header only earns a background once the page has moved under it. */
+  .atelier-veil {
+    background: var(--header-veil);
+    /* Order matters. The CSS compiler folds these two into one and keeps
+       whichever comes last; with the prefixed line last, only
+       `-webkit-backdrop-filter` reached the browser — which Chrome and Edge
+       do not read, so the header had a tint and no blur. Prefixed first,
+       standard last. */
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    /* A small lift off the page: the island is floating, not printed. */
+    box-shadow:
+      0 8px 24px rgb(32 30 29 / 0.08),
+      0 1px 2px rgb(32 30 29 / 0.05);
+  }
+
+  .dark .atelier-veil {
+    box-shadow:
+      0 8px 24px rgb(0 0 0 / 0.35),
+      0 1px 2px rgb(0 0 0 / 0.3);
+  }
+
+  /** Recharts' tooltip is injected outside our tree; style it from here. */
+  .recharts-tooltip-wrapper > * {
+    background: var(--card) !important;
+    border: 0 !important;
+    border-radius: var(--radius) !important;
+    box-shadow: 0 12px 32px rgb(32 30 29 / 0.14) !important;
+    font-family: var(--font-sans) !important;
+  }
 }

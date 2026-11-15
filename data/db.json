@@ -1,0 +1,417 @@
+{
+  "paintings": [
+    {
+      "id": "42d3762e-b5ac-48ef-95be-f6df0d92c083",
+      "slug": "morning-in-the-courtyard",
+      "plate": "blush",
+      "priceCents": 240000,
+      "inStock": true,
+      "images": [
+        {
+          "url": "/images/p1.webp",
+          "width": 731,
+          "height": 1104
+        },
+        {
+          "url": "/uploads/mwi5muk0-15a75566d017.png",
+          "width": 782,
+          "height": 553
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Morning in the Courtyard",
+          "meta": "Oil on linen · 90 × 120 cm · 2025",
+          "description": "Pale light crossing a tiled floor, a jasmine vine caught mid-bloom. Painted over three mornings in the artist’s own courtyard, the surface is thin and luminous, left visible at the edges."
+        },
+        "ar": {
+          "title": "صباحٌ في الفناء",
+          "meta": "زيت على كتّان · ٩٠ × ١٢٠ سم · ٢٠٢٥",
+          "description": "ضوءٌ شاحب يعبر أرضيةً مبلّطة، وغصن ياسمين في منتصف تفتّحه. رُسمت خلال ثلاثة صباحات في فناء الفنانة، بطبقات رقيقة مضيئة تُركت مكشوفةً عند الحواف."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T18:15:03.144Z"
+    },
+    {
+      "id": "caf309b6-6b19-4e10-9192-7d4ec8e6d18e",
+      "slug": "rosewater",
+      "plate": "mint",
+      "priceCents": 115000,
+      "inStock": true,
+      "images": [
+        {
+          "url": "/images/p2.webp",
+          "width": 754,
+          "height": 1104
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Rosewater",
+          "meta": "Acrylic on canvas · 60 × 80 cm · 2024",
+          "description": "A still life reduced to three shapes and a pour of pink. The glass is suggested rather than drawn; everything depends on where the light decides to stop."
+        },
+        "ar": {
+          "title": "ماء الورد",
+          "meta": "أكريليك على قماش · ٦٠ × ٨٠ سم · ٢٠٢٤",
+          "description": "طبيعة صامتة اختُزلت إلى ثلاثة أشكال وانسكابٍ من الوردي. الزجاج مُلمَّح إليه لا مرسوم، وكل شيء يتوقف على المكان الذي يقرّر فيه الضوء أن يتوقف."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "5324a605-89d1-41a9-9df0-8ec62318cea5",
+      "slug": "sea-glass",
+      "plate": "butter",
+      "priceCents": 68000,
+      "inStock": false,
+      "images": [
+        {
+          "url": "/images/p3.webp",
+          "width": 738,
+          "height": 1120
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Sea Glass",
+          "meta": "Watercolour on cotton · 40 × 50 cm · 2024",
+          "description": "Small, quick and salt-stained — a study made on the shore at Tyre. The blues were mixed with seawater, which is why they granulate the way they do."
+        },
+        "ar": {
+          "title": "زجاج البحر",
+          "meta": "ألوان مائية على قطن · ٤٠ × ٥٠ سم · ٢٠٢٤",
+          "description": "صغيرةٌ وسريعة ومطبوعةٌ بالملح — دراسة أُنجزت على شاطئ صور. مُزجت درجات الأزرق بماء البحر، ولهذا تتحبّب بهذه الطريقة."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T17:38:15.137Z"
+    },
+    {
+      "id": "9fb6cbaa-700d-4b61-a3a6-c801ae399ce2",
+      "slug": "lemon-light",
+      "plate": "leaf",
+      "priceCents": 190000,
+      "inStock": true,
+      "images": [
+        {
+          "url": "/images/p4.webp",
+          "width": 1104,
+          "height": 750
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Lemon Light",
+          "meta": "Oil on panel · 70 × 70 cm · 2025",
+          "description": "Afternoon through a kitchen curtain. The yellow is one pigment, unmixed, laid down once and never touched again."
+        },
+        "ar": {
+          "title": "ضوء الليمون",
+          "meta": "زيت على لوح · ٧٠ × ٧٠ سم · ٢٠٢٥",
+          "description": "عصرٌ يتسلّل عبر ستارة المطبخ. الأصفر صبغةٌ واحدة، غير ممزوجة، وُضعت مرةً واحدة ولم تُلمس بعدها."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "632a3170-4d7f-4a58-b413-9800516cd180",
+      "slug": "meadow-late",
+      "plate": "jade",
+      "priceCents": 320000,
+      "inStock": true,
+      "images": [
+        {
+          "url": "/images/p5.webp",
+          "width": 999,
+          "height": 1104
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Meadow, Late",
+          "meta": "Mixed media on linen · 100 × 140 cm · 2025",
+          "description": "The largest work in the series. Grasses drawn in graphite beneath the paint still show through, a quiet map of the field before colour arrived."
+        },
+        "ar": {
+          "title": "المرج في وقتٍ متأخر",
+          "meta": "وسائط مختلطة على كتّان · ١٠٠ × ١٤٠ سم · ٢٠٢٥",
+          "description": "أكبر أعمال السلسلة. الأعشاب المرسومة بالغرافيت تحت الطلاء ما تزال ظاهرة، خريطةٌ هادئة للحقل قبل أن يصله اللون."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "acaa9863-fbcb-4f1d-90db-6f5f917b41cd",
+      "slug": "peony-unfolding",
+      "plate": "blush",
+      "priceCents": 95000,
+      "inStock": true,
+      "images": [
+        {
+          "url": "/images/p6.webp",
+          "width": 311,
+          "height": 432
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Peony, Unfolding",
+          "meta": "Oil on canvas · 50 × 60 cm · 2025",
+          "description": "A single bloom at the moment it gives up holding itself together."
+        },
+        "ar": {
+          "title": "فاوانيا تتفتّح",
+          "meta": "زيت على قماش · ٥٠ × ٦٠ سم · ٢٠٢٥",
+          "description": "زهرةٌ واحدة في اللحظة التي تتخلّى فيها عن تماسكها."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "1bfef68e-d646-408f-a6cb-0e6d632b923d",
+      "slug": "blue-hour-byblos",
+      "plate": "mint",
+      "priceCents": 140000,
+      "inStock": true,
+      "images": [
+        {
+          "url": "/uploads/mwi3sjid-774985455947.png",
+          "width": 782,
+          "height": 553
+        }
+      ],
+      "copy": {
+        "en": {
+          "title": "Blue Hour, Byblos",
+          "meta": "Acrylic on linen · 80 × 80 cm · 2024",
+          "description": "The harbour after sunset, when every wall borrows the sky."
+        },
+        "ar": {
+          "title": "الساعة الزرقاء، جبيل",
+          "meta": "أكريليك على كتّان · ٨٠ × ٨٠ سم · ٢٠٢٤",
+          "description": "المرفأ بعد الغروب، حين تستعير كلُّ الجدران لونَ السماء."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T17:26:01.524Z"
+    },
+    {
+      "id": "48195b5a-1025-49f9-adf1-f39ff67d6b89",
+      "slug": "two-pears",
+      "plate": "butter",
+      "priceCents": 72000,
+      "inStock": false,
+      "images": [],
+      "copy": {
+        "en": {
+          "title": "Two Pears",
+          "meta": "Oil on panel · 30 × 40 cm · 2024",
+          "description": "Painted in one sitting; the fruit was eaten afterwards."
+        },
+        "ar": {
+          "title": "إجّاصتان",
+          "meta": "زيت على لوح · ٣٠ × ٤٠ سم · ٢٠٢٤",
+          "description": "رُسمت في جلسةٍ واحدة، ثم أُكلت الثمرتان بعدها."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "0267e540-8598-4147-ac7c-187387fa142b",
+      "slug": "fig-leaves",
+      "plate": "leaf",
+      "priceCents": 210000,
+      "inStock": true,
+      "images": [],
+      "copy": {
+        "en": {
+          "title": "Fig Leaves",
+          "meta": "Oil on linen · 90 × 90 cm · 2025",
+          "description": "Green on green — the shade under the tree at midday."
+        },
+        "ar": {
+          "title": "أوراق التين",
+          "meta": "زيت على كتّان · ٩٠ × ٩٠ سم · ٢٠٢٥",
+          "description": "أخضرٌ على أخضر — ظلُّ الشجرة في منتصف النهار."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "84586332-bd40-44f2-814f-bb851fc1caea",
+      "slug": "small-weather",
+      "plate": "jade",
+      "priceCents": 56000,
+      "inStock": true,
+      "images": [],
+      "copy": {
+        "en": {
+          "title": "Small Weather",
+          "meta": "Watercolour on cotton · 30 × 40 cm · 2025",
+          "description": "A cloud study kept from a wet week in March."
+        },
+        "ar": {
+          "title": "طقسٌ صغير",
+          "meta": "ألوان مائية على قطن · ٣٠ × ٤٠ سم · ٢٠٢٥",
+          "description": "دراسةٌ للغيوم احتُفظ بها من أسبوعٍ ماطر في آذار."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "534206e0-d72c-401f-868d-48bcea15238d",
+      "slug": "linen-folded",
+      "plate": "blush",
+      "priceCents": 175000,
+      "inStock": true,
+      "images": [],
+      "copy": {
+        "en": {
+          "title": "Linen, Folded",
+          "meta": "Oil on canvas · 70 × 90 cm · 2024",
+          "description": "White on white, the whole painting a study of one shadow."
+        },
+        "ar": {
+          "title": "كتّانٌ مطويّ",
+          "meta": "زيت على قماش · ٧٠ × ٩٠ سم · ٢٠٢٤",
+          "description": "أبيضٌ على أبيض، واللوحة كلّها دراسةٌ لظلٍّ واحد."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    },
+    {
+      "id": "32c3a360-bf47-40e0-bacd-2c66fbef8398",
+      "slug": "night-swim",
+      "plate": "mint",
+      "priceCents": 280000,
+      "inStock": true,
+      "images": [],
+      "copy": {
+        "en": {
+          "title": "Night Swim",
+          "meta": "Mixed media on linen · 100 × 120 cm · 2025",
+          "description": "The largest of the sea works; the surface still smells faintly of wax."
+        },
+        "ar": {
+          "title": "سباحةٌ ليلية",
+          "meta": "وسائط مختلطة على كتّان · ١٠٠ × ١٢٠ سم · ٢٠٢٥",
+          "description": "أكبر أعمال البحر؛ ما يزال سطحها يفوح برائحة الشمع الخفيفة."
+        }
+      },
+      "createdAt": "2026-11-15T16:54:38.962Z",
+      "updatedAt": "2026-11-15T16:54:38.962Z"
+    }
+  ],
+  "enquiries": [],
+  "heroSlides": [
+    {
+      "id": "e0afeaf3-e7f2-4a20-8fbb-f19178a64dda",
+      "image": {
+        "url": "/images/hero-painting.webp",
+        "width": 500,
+        "height": 500
+      },
+      "alt": {
+        "en": "A pale courtyard interior in morning light",
+        "ar": "فناءٌ شاحب في ضوء الصباح"
+      }
+    }
+  ],
+  "artist": {
+    "portrait": {
+      "url": "/images/artist-portrait.webp",
+      "width": 595,
+      "height": 648
+    },
+    "email": "hello@ateliernoor.example",
+    "instagramUrl": "https://instagram.com",
+    "pinterestUrl": "https://pinterest.com",
+    "behanceUrl": "https://behance.net",
+    "studioPhotos": [
+      {
+        "id": "d2247013-20dd-4936-bf1b-449d6cfff5d8",
+        "image": {
+          "url": "/images/studio-1.webp",
+          "width": 838,
+          "height": 559
+        },
+        "caption": {
+          "en": "The courtyard bench, where the watercolours dry",
+          "ar": "مقعد الفناء، حيث تجفّ الألوان المائية"
+        }
+      },
+      {
+        "id": "90b93e70-81b0-40d4-b819-604955a9c3f6",
+        "image": {
+          "url": "/images/studio-2.webp",
+          "width": 629,
+          "height": 838
+        },
+        "caption": {
+          "en": "Brushes kept in the order they are reached for",
+          "ar": "الفراشي مرتّبة بحسب ترتيب استعمالها"
+        }
+      },
+      {
+        "id": "c7577d0b-8139-42a8-87d5-e8e23071a4fd",
+        "image": {
+          "url": "/images/studio-3.webp",
+          "width": 838,
+          "height": 559
+        },
+        "caption": {
+          "en": "A morning’s palette, before it is scraped back",
+          "ar": "لوحة ألوان صباحية، قبل أن تُكشط"
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "36298b93-7a1e-4b20-a806-abfe1fbe33ca",
+        "year": 2025,
+        "text": {
+          "en": "Solo show “Paintings that hold the light”, Beirut",
+          "ar": "معرض فردي «لوحاتٌ تحتفظ بالضوء»، بيروت"
+        }
+      },
+      {
+        "id": "63daa248-8d49-4c3f-b122-9e4d45c0d622",
+        "year": 2024,
+        "text": {
+          "en": "Residency at the Byblos coastal studio",
+          "ar": "إقامة فنية في استوديو جبيل الساحلي"
+        }
+      },
+      {
+        "id": "d49d151c-4e0e-47aa-9a30-aa1172794d77",
+        "year": 2023,
+        "text": {
+          "en": "Group exhibition, Dubai Design Week",
+          "ar": "معرض جماعي، أسبوع دبي للتصميم"
+        }
+      },
+      {
+        "id": "74498b4b-3df2-4c99-930d-3a76014981aa",
+        "year": 2021,
+        "text": {
+          "en": "Graduated in Fine Arts, Lebanese University",
+          "ar": "تخرّجت في الفنون الجميلة، الجامعة اللبنانية"
+        }
+      }
+    ]
+  },
+  "content": {
+    "en": {},
+    "ar": {}
+  }
+}

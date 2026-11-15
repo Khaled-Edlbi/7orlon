@@ -1,0 +1,139 @@
+// Atelier gallery — the catalogue behind 7orlon.
+//
+// Copy is bilingual (English / Arabic). Painting copy lives in a translation
+// table so a third language is a data change, not a migration; the smaller
+// artist-page records carry both languages inline.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  // Prisma 7: the connection URL lives in `prisma.config.ts` (Migrate) and on
+  // the driver adapter passed to `new PrismaClient()` (runtime), never here.
+  provider = "postgresql"
+}
+
+enum Locale {
+  en
+  ar
+}
+
+/// One original painting. Every work is unique, so there is no quantity —
+/// only `inStock`, which a curator flips when a piece is acquired.
+model Painting {
+  id          String   @id @default(cuid())
+  /// URL segment: /works/<slug>
+  slug        String   @unique
+  /// Position in the collection; drives the showcase order and the ← → keys.
+  position    Int      @unique
+  /// The pastel plate painted behind this work. One of the five house colours.
+  plate       Plate
+  /// Minor units (cents). BigInt so a price can never silently overflow;
+  /// `server.ts` serialises it to a string before it crosses the wire.
+  priceCents  BigInt
+  inStock     Boolean  @default(true)
+  imageUrl    String?
+  imageWidth  Int?
+  imageHeight Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  translations PaintingTranslation[]
+  enquiries    Enquiry[]
+
+  @@index([position])
+}
+
+/// The five plates the studio prints on. Each has a saturated partner used for
+/// underlines and hits — see `PLATES` in `src/features/paintings/plates.ts`.
+enum Plate {
+  mint
+  blush
+  butter
+  leaf
+  jade
+}
+
+model PaintingTranslation {
+  id         String   @id @default(cuid())
+  paintingId String
+  locale     Locale
+  title      String
+  /// "Oil on linen · 90 × 120 cm · 2025" — split on "·" into the specs table.
+  meta       String
+  description String
+
+  painting Painting @relation(fields: [paintingId], references: [id], onDelete: Cascade)
+
+  @@unique([paintingId, locale])
+}
+
+/// A visitor asking about a work. One enquiry per email per painting.
+model Enquiry {
+  id         String   @id @default(cuid())
+  paintingId String
+  name       String
+  email      String
+  message    String
+  createdAt  DateTime @default(now())
+
+  painting Painting @relation(fields: [paintingId], references: [id], onDelete: Cascade)
+
+  @@unique([paintingId, email])
+  @@index([createdAt])
+}
+
+/// The rotating artwork behind the landing hero.
+model HeroSlide {
+  id          String  @id @default(cuid())
+  position    Int     @unique
+  imageUrl    String
+  imageWidth  Int
+  imageHeight Int
+  altEn       String
+  altAr       String
+}
+
+/// The studio behind the collection. A single row, id "default".
+model ArtistProfile {
+  id           String  @id @default("default")
+  portraitUrl  String?
+  portraitWidth  Int?
+  portraitHeight Int?
+  email        String
+  instagramUrl String
+  pinterestUrl String
+  behanceUrl   String
+
+  studioPhotos StudioPhoto[]
+  milestones   Milestone[]
+}
+
+model StudioPhoto {
+  id       String @id @default(cuid())
+  profileId String
+  position Int
+  imageUrl String
+  imageWidth  Int
+  imageHeight Int
+  captionEn String
+  captionAr String
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, position])
+}
+
+model Milestone {
+  id        String @id @default(cuid())
+  profileId String
+  year      Int
+  textEn    String
+  textAr    String
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([year])
+}
