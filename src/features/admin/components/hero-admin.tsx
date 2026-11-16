@@ -98,7 +98,7 @@ export function HeroAdmin() {
       {slides.length === 0 ? (
         <p className="text-ink-mute m-0 mb-[var(--space-8)] text-lg">{a.hEmpty}</p>
       ) : (
-        <ol className="domino m-0 mb-[var(--space-8)] flex list-none flex-col gap-[var(--space-6)] p-0 [--domino-base:120ms]">
+        <ol className="domino m-0 mb-[var(--space-8)] flex list-none flex-col gap-[var(--space-6)] p-0 [--domino-order:0] [--domino-base:240ms] [--domino-step:90ms]">
           {slides.map((slide, index) => (
             <li
               key={slide.key}
@@ -154,6 +154,8 @@ export function HeroAdmin() {
       )}
 
       <SaveBar
+        // Last: after the slides have started to land.
+        className="[--domino-order:8]"
         pending={save.isPending}
         saved={saved}
         error={save.isError ? a.errorGeneric : null}

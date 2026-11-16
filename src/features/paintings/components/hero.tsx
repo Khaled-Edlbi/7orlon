@@ -13,6 +13,13 @@ import { digits } from "@/lib/format";
 /** How long each hero painting holds the wall, in seconds. */
 const HERO_INTERVAL = 5;
 
+/**
+ * When the stats row lands, in seconds: the header's beat (300ms) plus the
+ * row's `--domino-base` (680ms), at the site's pace of 1.5. Keep it in step
+ * with those three if any of them changes.
+ */
+const STATS_LAND = 1.5;
+
 export function Hero({ onCollection }: { onCollection: () => void }) {
   const { t, locale, sign } = useT();
   const { data } = useHeroSlides();
@@ -30,8 +37,14 @@ export function Hero({ onCollection }: { onCollection: () => void }) {
   }, [slides.length]);
 
   return (
-    <section className="domino relative mx-auto grid max-w-[1440px] grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] [--domino-step:220ms] items-center gap-[clamp(32px,6vw,96px)] px-[clamp(20px,5vw,72px)] pt-[clamp(28px,6vh,80px)] pb-[clamp(48px,10vh,120px)]">
-      <div className="domino relative z-10 flex max-w-[600px] flex-col gap-[var(--space-4)] [--domino-step:80ms]">
+    // The cascade runs by importance, not by markup order. After the header's
+    // beat the picture lands first (0ms), then the copy column (320ms) and its
+    // lines one by one, then the stats row (680ms) and its figures. Each
+    // parent arrives before its children. These are pace-1 times — see
+    // `--domino-pace` in globals.css for what the visitor actually gets. The
+    // copy stays first in the markup for reading order.
+    <section className="domino relative mx-auto grid max-w-[1440px] grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-center gap-[clamp(32px,6vw,96px)] px-[clamp(20px,5vw,72px)] pt-[clamp(28px,6vh,80px)] pb-[clamp(48px,10vh,120px)]">
+      <div className="domino relative z-10 flex max-w-[600px] flex-col gap-[var(--space-4)] [--domino-base:320ms] [--domino-step:90ms]">
         <p className="m-0 flex items-center gap-2.5 text-[13px] tracking-[0.14em] uppercase">
           <Brush shape="wide" color="#3ED6D3" className="h-3 w-[38px]" />
           {t.kicker}
@@ -71,7 +84,7 @@ export function Hero({ onCollection }: { onCollection: () => void }) {
           </BrushButton>
         </div>
 
-        <div className="domino relative isolate mt-[var(--space-4)] flex flex-wrap gap-[clamp(20px,3vw,44px)] pt-1.5 [--domino-base:360ms] [--domino-step:90ms]">
+        <div className="domino relative isolate mt-[var(--space-4)] flex flex-wrap gap-[clamp(20px,3vw,44px)] pt-1.5 [--domino-order:0] [--domino-base:680ms] [--domino-step:90ms]">
           <Brush
             shape="line3"
             color="#3FD48A"
@@ -84,9 +97,11 @@ export function Hero({ onCollection }: { onCollection: () => void }) {
         </div>
       </div>
 
-      {/* The picture drops away from the copy once the two columns stack. */}
+      {/* The picture drops away from the copy once the two columns stack.
+          It is the front of the cascade, and inside it the painting itself
+          leads: the brush marks, the dots and the badge follow it in. */}
       <div
-        className="relative mx-auto aspect-[4/5] max-h-[74vh] w-full max-w-[520px]"
+        className="domino relative mx-auto aspect-[4/5] max-h-[74vh] w-full max-w-[520px] [--domino-order:0] [--domino-step:70ms]"
         style={{ marginTop: "clamp(0px, (1000px - 100vw) * 1, 72px)" }}
       >
         <Brush
@@ -110,7 +125,7 @@ export function Hero({ onCollection }: { onCollection: () => void }) {
           className="absolute inset-[-10%_-18%_70%_55%] rotate-[8deg] opacity-80"
         />
 
-        <div className="atelier-frame absolute inset-0">
+        <div className="atelier-frame absolute inset-0 [--domino-order:0]">
           {slides.map((slide, k) => {
             const on = k === active;
             const off = on ? 0 : (k > active ? 100 : -100) * sign;
@@ -190,6 +205,9 @@ function Stat({
         ) : (
           <AnimatedNumber
             value={numeric}
+            // The figures are the last of the hero to land, about a second
+            // and a half in; counting from mount would be over by then.
+            delay={STATS_LAND}
             format={(n) => digits(Math.round(n), locale)}
           />
         )}

@@ -263,10 +263,16 @@ carry every page, gallery and desk alike:
 
 - **`.domino`** (globals.css) — put it on a container and its direct children
   arrive one after another. Pure CSS, so it plays on load with no script. Used
-  for whatever is on screen when a page opens.
+  for whatever is on screen when a page opens. The most important piece falls
+  first: `--domino-order` on a piece overrides its position in the row, which
+  is how the hero's picture leads the copy that precedes it in the markup.
+  The header always arrives first — the section after it waits
+  `--domino-header-beat` — and `--domino-pace` multiplies every domino time on
+  the site (1.5), so the tempo is one number. On the desk the sidebar plays
+  the header's part.
 - **`<Reveal>`** (`components/motion`) — the same cascade, held back until the
-  section scrolls into view. Used for everything below the fold. `amount`
-  sets how much must be on screen first (the showcase waits for half). A
+  section is half in view (or fills half the screen, for a long one). Used for
+  everything below the fold, one per section. `amount` overrides the half. A
   `.domino` container nested inside a Reveal waits with it, so a busy section
   plays as one series: give each inner container a `--domino-base` and its
   pieces fall after the ones before.

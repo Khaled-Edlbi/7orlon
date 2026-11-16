@@ -47,7 +47,10 @@ export function LoginForm({ configured }: { configured: boolean }) {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col px-[clamp(20px,5vw,72px)]">
-      <header className="flex items-center gap-[var(--space-4)] py-[var(--space-3)]">
+      {/* The same order as the gallery: the header first, then — a beat
+          later — the page. Here the form is what matters, so the copy and
+          the form lead and the paint beside them follows. */}
+      <header className="domino flex items-center gap-[var(--space-4)] py-[var(--space-3)]">
         <Link href="/" className="me-auto flex items-center gap-[var(--space-2)]">
           <BrushSwatches />
           <span className="font-scribble text-[21px] font-semibold tracking-[-0.01em]">
@@ -57,8 +60,8 @@ export function LoginForm({ configured }: { configured: boolean }) {
         <LanguageSwitch />
       </header>
 
-      <main className="grid flex-1 grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-[clamp(32px,6vw,96px)] pb-[clamp(48px,10vh,120px)]">
-        <div className="domino relative z-10 flex max-w-[460px] flex-col gap-[var(--space-4)] [--domino-step:80ms]">
+      <main className="grid flex-1 grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-[clamp(32px,6vw,96px)] pb-[clamp(48px,10vh,120px)] [--domino-lead:var(--domino-header-beat)]">
+        <div className="domino relative z-10 flex max-w-[460px] flex-col gap-[var(--space-4)] [--domino-step:90ms]">
           <Kicker color="#3ED6D3">{a.deskName}</Kicker>
 
           <h1 className="m-0 text-[clamp(46px,7vw,104px)] leading-[0.98] font-semibold tracking-[-0.025em]">
@@ -85,7 +88,9 @@ export function LoginForm({ configured }: { configured: boolean }) {
           <form
             onSubmit={onSubmit}
             noValidate
-            className="mt-[var(--space-2)] flex flex-col gap-[var(--space-4)]"
+            // After the three lines above (0, 90, 180ms): the form lands on
+            // its base, then the field and the button.
+            className="domino mt-[var(--space-2)] flex flex-col gap-[var(--space-4)] [--domino-order:0] [--domino-base:270ms] [--domino-step:90ms]"
           >
             <Field>
               <FieldLabel htmlFor="admin-password">{a.password}</FieldLabel>
@@ -119,7 +124,7 @@ export function LoginForm({ configured }: { configured: boolean }) {
         {/* Where the front page hangs a painting, the desk has only the paint. */}
         <div
           aria-hidden="true"
-          className="domino relative mx-auto hidden aspect-[4/5] max-h-[62vh] w-full max-w-[420px] [--domino-base:200ms] [--domino-step:110ms] md:block"
+          className="domino relative mx-auto hidden aspect-[4/5] max-h-[62vh] w-full max-w-[420px] [--domino-base:450ms] [--domino-step:110ms] md:block"
         >
           <Brush
             shape="block"

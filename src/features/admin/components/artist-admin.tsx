@@ -149,7 +149,9 @@ export function ArtistAdmin() {
         shape="line2"
       />
 
-      <div className="domino grid grid-cols-1 gap-[clamp(40px,6vw,88px)] [--domino-base:100ms] lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+      {/* After the heading the portrait leads (240ms), then the written
+          column (400ms) and its sections one by one. */}
+      <div className="domino grid grid-cols-1 gap-[clamp(40px,6vw,88px)] [--domino-order:0] [--domino-base:240ms] lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <SectionHeading color={STRONG.butter} shape="wide">
             {a.arPortrait}
@@ -162,7 +164,7 @@ export function ArtistAdmin() {
           />
         </div>
 
-        <div className="domino flex min-w-0 flex-col gap-[var(--space-8)] [--domino-base:180ms]">
+        <div className="domino flex min-w-0 flex-col gap-[var(--space-8)] [--domino-order:0] [--domino-base:400ms] [--domino-step:120ms]">
           {/* --- contact ------------------------------------------------ */}
           <section className="flex flex-col gap-[var(--space-4)]">
             <SectionHeading color={STRONG.mint}>{a.arContact}</SectionHeading>

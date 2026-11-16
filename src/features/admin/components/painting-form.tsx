@@ -249,7 +249,9 @@ export function PaintingForm({ painting }: { painting?: Painting }) {
         }
       />
 
-      <div className="domino grid grid-cols-1 gap-[clamp(40px,6vw,88px)] [--domino-base:100ms] lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
+      {/* After the heading the picture leads (240ms), then the written
+          column (400ms): price and address, then the two languages. */}
+      <div className="domino grid grid-cols-1 gap-[clamp(40px,6vw,88px)] [--domino-order:0] [--domino-base:240ms] lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
         {/* --- the picture, on its plate -------------------------------- */}
         <div className="flex flex-col gap-[var(--space-6)]">
           <ImagesField
@@ -308,7 +310,7 @@ export function PaintingForm({ painting }: { painting?: Painting }) {
         </div>
 
         {/* --- everything written about it ------------------------------ */}
-        <div className="domino flex min-w-0 flex-col gap-[var(--space-8)] [--domino-base:180ms]">
+        <div className="domino flex min-w-0 flex-col gap-[var(--space-8)] [--domino-order:0] [--domino-base:400ms] [--domino-step:120ms]">
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-[var(--space-6)] gap-y-[var(--space-4)]">
             <Field>
               <FieldLabel htmlFor="painting-price">{a.pPrice}</FieldLabel>
@@ -592,7 +594,8 @@ function CopyFields({
     <section
       dir={dir}
       lang={locale}
-      className="domino flex flex-col gap-[var(--space-4)] [--domino-base:300ms] [--domino-step:60ms]"
+      // Lands a beat after the price row above it, then its fields follow.
+      className="domino flex flex-col gap-[var(--space-4)] [--domino-order:0] [--domino-base:520ms] [--domino-step:60ms]"
     >
       <SectionHeading color={color}>{heading}</SectionHeading>
 

@@ -36,11 +36,14 @@ export function WorksIndex({ onSelect }: { onSelect: () => void }) {
   };
 
   return (
+    // One section, one series: the heading, then the rows (160ms on, 45ms
+    // apart), then the pager once the last row has started.
+    <Reveal asChild>
     <section
       id="index"
       className="relative mx-auto max-w-[1440px] px-[clamp(20px,5vw,72px)] pt-[clamp(40px,6vh,80px)] pb-[clamp(48px,8vh,96px)]"
     >
-      <Reveal className="mb-[var(--space-6)] flex flex-wrap items-baseline gap-[var(--space-3)]">
+      <div className="mb-[var(--space-6)] flex flex-wrap items-baseline gap-[var(--space-3)]">
         <h2 className="relative isolate m-0 text-[clamp(30px,3.4vw,48px)] font-semibold tracking-[-0.02em]">
           <Brush
             shape="streaks"
@@ -58,9 +61,9 @@ export function WorksIndex({ onSelect }: { onSelect: () => void }) {
         <span className="text-ink-mute text-sm">
           {counter(paintings.length, locale)} {t.works}
         </span>
-      </Reveal>
+      </div>
 
-      <Reveal className="grid [--domino-step:45ms] grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-x-[clamp(24px,4vw,64px)] gap-y-0.5">
+      <div className="domino grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-x-[clamp(24px,4vw,64px)] gap-y-0.5 [--domino-order:0] [--domino-base:160ms] [--domino-step:45ms]">
         {items.map((p, k) => (
           <div key={p.id}>
             <button
@@ -99,7 +102,7 @@ export function WorksIndex({ onSelect }: { onSelect: () => void }) {
             </button>
           </div>
         ))}
-      </Reveal>
+      </div>
 
       {pageCount > 1 && (
         <Pager
@@ -113,6 +116,7 @@ export function WorksIndex({ onSelect }: { onSelect: () => void }) {
       )}
 
     </section>
+    </Reveal>
   );
 }
 
@@ -136,7 +140,7 @@ function Pager({
   return (
     <nav
       aria-label="Pages"
-      className="mt-[var(--space-6)] flex flex-wrap items-center gap-[var(--space-3)]"
+      className="mt-[var(--space-6)] flex flex-wrap items-center gap-[var(--space-3)] [--domino-order:10]"
     >
       <button
         type="button"

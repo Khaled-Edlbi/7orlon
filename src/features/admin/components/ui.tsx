@@ -52,7 +52,13 @@ export function Kicker({
   );
 }
 
-/** A page's title block: kicker, a heading with paint swiped under it, actions. */
+/**
+ * A page's title block: kicker, a heading with paint swiped under it, actions.
+ *
+ * It is the first thing on every desk page and its three lines land at 0, 90
+ * and 180ms — so whatever follows it on the page starts from a
+ * `--domino-base` of 240ms.
+ */
 export function DeskHeading({
   kicker,
   title,
@@ -71,7 +77,7 @@ export function DeskHeading({
 }) {
   return (
     <header className="mb-[var(--space-8)] flex flex-wrap items-end gap-x-[var(--space-6)] gap-y-[var(--space-4)]">
-      <div className="domino me-auto flex flex-col gap-[var(--space-3)] [--domino-step:60ms]">
+      <div className="domino me-auto flex flex-col gap-[var(--space-3)] [--domino-step:90ms]">
         <Kicker color={color}>{kicker}</Kicker>
         <h1 className="relative isolate m-0 inline-block self-start text-[clamp(34px,4.2vw,60px)] leading-[1.1] font-semibold tracking-[-0.02em]">
           <Brush

@@ -98,7 +98,7 @@ export function EnquiryForm({
       id="enquire"
       onSubmit={onSubmit}
       noValidate
-      className="domino flex max-w-[520px] scroll-mt-24 flex-col gap-[var(--space-4)] [--domino-base:420ms]"
+      className="domino flex max-w-[520px] scroll-mt-24 flex-col gap-[var(--space-4)] [--domino-step:90ms]"
     >
       <h3 className="m-0 text-[22px] font-semibold tracking-[-0.01em]">
         {t.enquiryTitle}

@@ -54,6 +54,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   // frame stays and this shell fades its own page.
   const { leaving, target } = usePageTransition();
 
+  // The sidebar is the desk's header, so it arrives first: the page the desk
+  // opens on waits a beat for it. Once the reader has moved to another desk
+  // page the sidebar is already standing, and pages start at once.
+  const [openedOn] = React.useState(pathname);
+  const [moved, setMoved] = React.useState(false);
+  if (!moved && pathname !== openedOn) setMoved(true);
+
   // The highlight moves on the click, not when the page arrives.
   const shownPath = target ?? pathname;
 
@@ -77,7 +84,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         <nav
           aria-label={a.deskName}
-          className="domino -mx-2 flex gap-1 overflow-x-auto px-2 py-1 [--domino-base:120ms] [--domino-step:55ms] lg:flex-col lg:overflow-visible"
+          // The mark (0ms), then the sections one by one (90–290ms), then the
+          // foot of the column — all inside the beat the page waits.
+          className="domino -mx-2 flex gap-1 overflow-x-auto px-2 py-1 [--domino-order:0] [--domino-base:90ms] [--domino-step:40ms] lg:flex-col lg:overflow-visible"
         >
           {NAV.map((item) => {
             const active = isActive(item.href);
@@ -103,7 +112,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="flex flex-wrap items-center gap-x-[var(--space-4)] gap-y-[var(--space-2)] lg:mt-auto lg:flex-col lg:items-start">
+        <div className="flex flex-wrap items-center gap-x-[var(--space-4)] gap-y-[var(--space-2)] [--domino-order:5] lg:mt-auto lg:flex-col lg:items-start">
           <LanguageSwitch />
           <Link href="/" className="text-ink-mute text-[13px]">
             {a.viewSite} <span aria-hidden="true">↗</span>
@@ -131,6 +140,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           key={pathname}
           className={cn(
             "domino transition-opacity duration-[180ms] ease-atelier",
+            // Opening: wait for the sidebar. Afterwards there is no header
+            // beat to wait for, here or in any `<Reveal>` on the page.
+            moved ? "[--domino-header-beat:0ms]" : "domino-opening",
             leaving ? "opacity-0" : "opacity-100",
           )}
         >

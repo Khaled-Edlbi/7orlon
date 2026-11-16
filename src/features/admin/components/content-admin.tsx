@@ -78,7 +78,8 @@ export function ContentAdmin() {
         shape="line3"
       />
 
-      <nav className="mb-[var(--space-8)] flex flex-wrap gap-x-[var(--space-4)] gap-y-[var(--space-2)] text-[15px]">
+      {/* Order 4: after the heading's three lines. */}
+      <nav className="mb-[var(--space-8)] flex flex-wrap gap-x-[var(--space-4)] gap-y-[var(--space-2)] text-[15px] [--domino-order:4]">
         {CONTENT_SECTIONS.map((section) => (
           <a key={section.id} href={`#${section.id}`}>
             {section.title[locale]}
@@ -86,10 +87,12 @@ export function ContentAdmin() {
         ))}
       </nav>
 
-      <div className="domino flex flex-col gap-[clamp(48px,8vh,88px)] [--domino-base:160ms]">
+      <div className="flex flex-col gap-[clamp(48px,8vh,88px)] [--domino-order:0]">
         {CONTENT_SECTIONS.map((section, index) => (
-          // Eight long sections: each plays its fields in series when it is
-          // scrolled to, rather than all of them at once on load.
+          // Eight long sections: each plays its fields in series when half of
+          // it is on screen, rather than all of them at once on load. The one
+          // already on screen when the page opens waits for the heading above
+          // (`.domino-following` in globals.css); the rest start at once.
           <Reveal key={section.id} asChild>
           <section
             id={section.id}
@@ -142,7 +145,7 @@ export function ContentAdmin() {
       </div>
 
       {/* The page is long; the way to save it stays within reach. */}
-      <div className="atelier-veil sticky bottom-0 z-10 -mx-[var(--space-4)] mt-[var(--space-8)] px-[var(--space-4)] py-[var(--space-3)]">
+      <div className="atelier-veil sticky bottom-0 z-10 -mx-[var(--space-4)] mt-[var(--space-8)] px-[var(--space-4)] py-[var(--space-3)] [--domino-order:6]">
         <SaveBar
           pending={save.isPending}
           saved={saved}
