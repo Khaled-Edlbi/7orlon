@@ -63,7 +63,9 @@ export function Dashboard() {
         }
       />
 
-      <div className="domino relative isolate flex flex-wrap gap-x-[clamp(24px,4vw,56px)] gap-y-[var(--space-4)] pt-1.5 [--domino-base:80ms] [--domino-step:80ms]">
+      {/* After the heading: the figures (240ms on, one by one), then the two
+          panels (720, 880ms), each list following its own panel's heading. */}
+      <div className="domino relative isolate flex flex-wrap gap-x-[clamp(24px,4vw,56px)] gap-y-[var(--space-4)] pt-1.5 [--domino-order:0] [--domino-base:240ms] [--domino-step:80ms]">
         <Brush
           shape="line3"
           color={STRONG.jade}
@@ -82,14 +84,14 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div className="domino mt-[clamp(40px,7vh,80px)] grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-[clamp(32px,5vw,72px)] [--domino-base:140ms]">
+      <div className="domino mt-[clamp(40px,7vh,80px)] grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-[clamp(32px,5vw,72px)] [--domino-order:0] [--domino-base:720ms] [--domino-step:160ms]">
         <section className="flex flex-col gap-[var(--space-4)]">
           <SectionHeading color={STRONG.butter} shape="streaks">
             {a.dashPlates}
           </SectionHeading>
 
           {/* A bar chart, in the only material this design has: paint. */}
-          <ul className="domino m-0 flex list-none flex-col gap-[var(--space-2)] p-0 [--domino-base:240ms] [--domino-step:55ms]">
+          <ul className="domino m-0 flex list-none flex-col gap-[var(--space-2)] p-0 [--domino-base:810ms] [--domino-step:55ms]">
             {perPlate.map(({ plate, count }) => (
               <li
                 key={plate}
@@ -135,7 +137,7 @@ export function Dashboard() {
           {recent.length === 0 ? (
             <p className="text-ink-mute m-0 text-base">{a.dashNoEnquiries}</p>
           ) : (
-            <ul className="domino m-0 flex list-none flex-col gap-[var(--space-3)] p-0 [--domino-base:300ms] [--domino-step:55ms]">
+            <ul className="domino m-0 flex list-none flex-col gap-[var(--space-3)] p-0 [--domino-base:970ms] [--domino-step:55ms]">
               {recent.map((enquiry) => (
                 <li key={enquiry.id} className="flex flex-col gap-0.5">
                   <span className="flex flex-wrap items-baseline gap-x-2">
@@ -165,6 +167,8 @@ function Figure({ value, label }: { value: number; label: string }) {
       <div className="text-[30px] leading-[1.6] font-semibold">
         <AnimatedNumber
           value={value}
+          // The figures land about half a second in, after the heading.
+          delay={0.5}
           format={(n) => digits(Math.round(n), locale)}
         />
       </div>

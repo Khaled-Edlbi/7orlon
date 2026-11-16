@@ -107,6 +107,27 @@ const en = {
   enquiryCancel: "Cancel",
   enquiryConsent: "The studio may email me about similar works.",
 
+  // View in your room (AR)
+  wallView: "View in your room",
+  wallIntro:
+    "Your phone’s camera shows this work in your own room, at the size it really is — on a wall, the floor, a table, wherever you point.",
+  wallStep1: "Stand two or three steps back from where it should go.",
+  wallStep2:
+    "Point the phone there and move slowly until the work appears, then tap to place it.",
+  wallStep3:
+    "Walk up to it, step back, look from the side. It stays its real size.",
+  wallStart: "Open the camera",
+  wallPreparing: "Getting ready…",
+  wallUnsupported:
+    "This needs a phone or tablet: Chrome on Android, or Safari on an iPhone or iPad. Open this page there to see the work in your room.",
+  wallFailed:
+    "The camera view did not open. Allow this site to use the camera, then try again.",
+  wallSearching: "Move the phone slowly across a wall or the floor.",
+  wallAim: "Tap to place it here.",
+  wallMove: "Move it",
+  wallDone: "Done",
+  wallClose: "Close",
+
   loading: "Loading the collection…",
   errorTitle: "Something came unstuck.",
   errorRetry: "Try again",
@@ -206,6 +227,24 @@ const ar: Dictionary = {
   enquiryDuplicate: "لقد استفسرت عن هذا العمل من قبل.",
   enquiryCancel: "إلغاء",
   enquiryConsent: "يمكن للاستوديو مراسلتي بشأن أعمال مشابهة.",
+
+  wallView: "شاهدها في غرفتك",
+  wallIntro:
+    "كاميرا هاتفك تُريك هذا العمل في غرفتك أنت، بحجمه الحقيقي — على جدار أو على الأرض أو على طاولة، حيثما توجّه الهاتف.",
+  wallStep1: "قف على بُعد خطوتين أو ثلاث من المكان الذي تريده.",
+  wallStep2: "وجّه الهاتف نحوه وحرّكه ببطء حتى يظهر العمل، ثم انقر لوضعه.",
+  wallStep3: "اقترب منه، ابتعد، انظر إليه من الجانب. يبقى بحجمه الحقيقي.",
+  wallStart: "افتح الكاميرا",
+  wallPreparing: "جارٍ التحضير…",
+  wallUnsupported:
+    "يحتاج هذا إلى هاتف أو جهاز لوحي: كروم على أندرويد، أو سفاري على آيفون أو آيباد. افتح هذه الصفحة هناك لترى العمل في غرفتك.",
+  wallFailed:
+    "لم تُفتح الكاميرا. اسمح لهذا الموقع باستخدام الكاميرا ثم أعد المحاولة.",
+  wallSearching: "حرّك الهاتف ببطء على امتداد جدار أو على الأرض.",
+  wallAim: "انقر لوضعها هنا.",
+  wallMove: "انقلها",
+  wallDone: "تمّ",
+  wallClose: "إغلاق",
 
   loading: "جارٍ تحميل المجموعة…",
   errorTitle: "حدث خطأٌ ما.",
@@ -315,6 +354,12 @@ const adminEn = {
   pPriceInvalid: "Enter a price like 2400 or 2400.50.",
   pTitleRequired: "A title is required in both languages.",
   pSlugInvalid: "Use lowercase letters, numbers and hyphens only.",
+  pWidthCm: "Real width (cm)",
+  pHeightCm: "Real height (cm)",
+  pRealSizeHint:
+    "The measured size of the work itself. It is what “View in your room” scales the picture to; leave both empty and that button is not offered.",
+  pRealSizeInvalid:
+    "Enter both sides in centimetres, like 90 and 120 — or leave both empty.",
 
   hKicker: "Landing page",
   hTitle: "Hero wall",
@@ -440,6 +485,12 @@ const adminAr: AdminDictionary = {
   pPriceInvalid: "أدخل سعراً مثل 2400 أو 2400.50.",
   pTitleRequired: "العنوان مطلوب باللغتين.",
   pSlugInvalid: "استخدم أحرفاً إنجليزية صغيرة وأرقاماً وشرطات فقط.",
+  pWidthCm: "العرض الحقيقي (سم)",
+  pHeightCm: "الارتفاع الحقيقي (سم)",
+  pRealSizeHint:
+    "المقاس الفعلي للعمل نفسه. به تُعرض اللوحة بحجمها الحقيقي في «شاهدها في غرفتك»؛ اترك الحقلين فارغين فلا يظهر ذلك الزر.",
+  pRealSizeInvalid:
+    "أدخل الضلعين بالسنتيمتر، مثل 90 و 120 — أو اترك الحقلين فارغين.",
 
   hKicker: "الصفحة الرئيسية",
   hTitle: "جدار الواجهة",

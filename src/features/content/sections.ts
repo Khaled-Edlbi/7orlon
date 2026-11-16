@@ -103,6 +103,26 @@ export const CONTENT_SECTIONS: ContentSection[] = [
     ],
   },
   {
+    id: "wall",
+    title: { en: "View in your room (AR)", ar: "شاهدها في غرفتك (الواقع المعزَّز)" },
+    fields: [
+      { key: "wallView", label: { en: "Button and heading", ar: "الزر والعنوان" } },
+      { key: "wallIntro", label: { en: "Introduction", ar: "المقدّمة" }, long: true },
+      { key: "wallStep1", label: { en: "Step one", ar: "الخطوة الأولى" } },
+      { key: "wallStep2", label: { en: "Step two", ar: "الخطوة الثانية" } },
+      { key: "wallStep3", label: { en: "Step three", ar: "الخطوة الثالثة" } },
+      { key: "wallStart", label: { en: "Open-camera button", ar: "زر فتح الكاميرا" } },
+      { key: "wallPreparing", label: { en: "Open-camera button — while loading", ar: "زر فتح الكاميرا — أثناء التحميل" } },
+      { key: "wallUnsupported", label: { en: "On a device without AR", ar: "على جهاز لا يدعم الواقع المعزَّز" }, long: true },
+      { key: "wallFailed", label: { en: "When the camera does not open", ar: "عند تعذّر فتح الكاميرا" }, long: true },
+      { key: "wallSearching", label: { en: "In the camera — looking for a surface", ar: "في الكاميرا — البحث عن سطح" } },
+      { key: "wallAim", label: { en: "In the camera — ready to place", ar: "في الكاميرا — جاهزة للوضع" } },
+      { key: "wallMove", label: { en: "In the camera — move button", ar: "في الكاميرا — زر النقل" } },
+      { key: "wallDone", label: { en: "In the camera — done button", ar: "في الكاميرا — زر الانتهاء" } },
+      { key: "wallClose", label: { en: "Close (button label)", ar: "إغلاق (تسمية الزر)" } },
+    ],
+  },
+  {
     id: "artist",
     title: { en: "Artist page", ar: "صفحة الفنانة" },
     fields: [

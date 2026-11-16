@@ -35,7 +35,7 @@ export function EnquiriesAdmin() {
       {data.enquiries.length === 0 ? (
         <p className="text-ink-mute m-0 text-lg">{a.eEmpty}</p>
       ) : (
-        <ul className="domino m-0 flex list-none flex-col gap-[var(--space-8)] p-0 [--domino-base:120ms]">
+        <ul className="domino m-0 flex list-none flex-col gap-[var(--space-8)] p-0 [--domino-order:0] [--domino-base:240ms] [--domino-step:90ms]">
           {data.enquiries.map((enquiry, index) => (
             <EnquiryRow key={enquiry.id} enquiry={enquiry} index={index} />
           ))}

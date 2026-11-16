@@ -18,6 +18,10 @@
           "height": 553
         }
       ],
+      "sizeCm": {
+        "width": 90,
+        "height": 120
+      },
       "copy": {
         "en": {
           "title": "Morning in the Courtyard",
@@ -46,6 +50,10 @@
           "height": 1104
         }
       ],
+      "sizeCm": {
+        "width": 60,
+        "height": 80
+      },
       "copy": {
         "en": {
           "title": "Rosewater",
@@ -74,6 +82,10 @@
           "height": 1120
         }
       ],
+      "sizeCm": {
+        "width": 40,
+        "height": 50
+      },
       "copy": {
         "en": {
           "title": "Sea Glass",
@@ -102,6 +114,10 @@
           "height": 750
         }
       ],
+      "sizeCm": {
+        "width": 70,
+        "height": 70
+      },
       "copy": {
         "en": {
           "title": "Lemon Light",
@@ -130,6 +146,10 @@
           "height": 1104
         }
       ],
+      "sizeCm": {
+        "width": 100,
+        "height": 140
+      },
       "copy": {
         "en": {
           "title": "Meadow, Late",
@@ -158,6 +178,10 @@
           "height": 432
         }
       ],
+      "sizeCm": {
+        "width": 50,
+        "height": 60
+      },
       "copy": {
         "en": {
           "title": "Peony, Unfolding",
@@ -186,6 +210,10 @@
           "height": 553
         }
       ],
+      "sizeCm": {
+        "width": 80,
+        "height": 80
+      },
       "copy": {
         "en": {
           "title": "Blue Hour, Byblos",
@@ -208,6 +236,10 @@
       "priceCents": 72000,
       "inStock": false,
       "images": [],
+      "sizeCm": {
+        "width": 30,
+        "height": 40
+      },
       "copy": {
         "en": {
           "title": "Two Pears",
@@ -230,6 +262,10 @@
       "priceCents": 210000,
       "inStock": true,
       "images": [],
+      "sizeCm": {
+        "width": 90,
+        "height": 90
+      },
       "copy": {
         "en": {
           "title": "Fig Leaves",
@@ -252,6 +288,10 @@
       "priceCents": 56000,
       "inStock": true,
       "images": [],
+      "sizeCm": {
+        "width": 30,
+        "height": 40
+      },
       "copy": {
         "en": {
           "title": "Small Weather",
@@ -274,6 +314,10 @@
       "priceCents": 175000,
       "inStock": true,
       "images": [],
+      "sizeCm": {
+        "width": 70,
+        "height": 90
+      },
       "copy": {
         "en": {
           "title": "Linen, Folded",
@@ -296,6 +340,10 @@
       "priceCents": 280000,
       "inStock": true,
       "images": [],
+      "sizeCm": {
+        "width": 100,
+        "height": 120
+      },
       "copy": {
         "en": {
           "title": "Night Swim",

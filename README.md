@@ -31,6 +31,7 @@ can be changed.
 | Icons | **lucide-react** | |
 | Theme | **next-themes** | Light by default; dark tokens defined, no toggle shipped |
 | Charts | **recharts v3** | Installed per spec; see [Caveats](#caveats) |
+| AR | **three**, **@react-three/fiber v9**, **@react-three/xr v6** | "View in your room" on a work's page; loaded only when a phone opens it. See [View in your room](#view-in-your-room) |
 
 ---
 
@@ -72,7 +73,7 @@ bilingual like the gallery, and built from the same brush components.
 | Page | What it controls |
 | --- | --- |
 | **Overview** `/admin` | Counts, the value on the wall, works per plate, the latest enquiries |
-| **Paintings** `/admin/paintings` | Add, edit and delete works; reorder the wall; flip available / sold; up to twelve photographs per work (the first is the cover; visitors swap between them with arrows), price, plate, address, and the title, medium, size, year and description in both languages |
+| **Paintings** `/admin/paintings` | Add, edit and delete works; reorder the wall; flip available / sold; up to twelve photographs per work (the first is the cover; visitors swap between them with arrows), price, plate, address, the real width and height in centimetres, and the title, medium, size, year and description in both languages |
 | **Hero wall** `/admin/hero` | The pictures that rotate behind the landing headline, their order and descriptions |
 | **Artist** `/admin/artist` | Portrait, email, social links, studio photographs and captions, milestones |
 | **Site copy** `/admin/content` | Every line of interface text on the site — headline, figures, buttons, the artist's statement, form labels — in English and Arabic |
@@ -91,6 +92,7 @@ lays the two together. Emptying a line at the desk returns it to its default.
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Dev server on :3000 |
+| `npm run dev:https` | The same over HTTPS with a self-signed certificate — what a phone needs before it will open the camera |
 | `npm run build` | Production build |
 | `npm start` | Production server |
 | `npm run lint` | ESLint (flat config) |
@@ -99,6 +101,41 @@ lays the two together. Emptying a line at the desk returns it to its default.
 The `db:*` scripts and the `prisma/` folder are left over from the Postgres
 version of this app and are no longer used at runtime — see
 [Caveats](#caveats).
+
+---
+
+## View in your room
+
+A work that has a photograph and a measured size gets a third button on its
+page: **View in your room**. It opens the phone's camera and shows the work at
+its real size on whatever the visitor points at — a wall, the floor, a table.
+Upright surfaces hang it plumb; level ones lay it face up.
+
+Scale comes from `sizeCm` (the *Real width / Real height* fields at the desk),
+proportion from the cover photograph, and thickness from `WALL_DEPTH` in
+`features/paintings/wall.ts` — two centimetres for every work, until depth is
+measured too. The caption's "90 × 120 cm" is text, written per language, and
+is not what the camera uses.
+
+Two machines do the work, chosen by `detectWallSupport()`:
+
+| Device | What runs | Where |
+| --- | --- | --- |
+| Android (Chrome) | A WebXR session drawn with React Three Fiber: hit-test, a ghost that follows the surface, tap to place, an anchor to keep it there | `components/wall-session.tsx` |
+| iPhone / iPad (Safari) | No WebXR. The work is exported to USDZ in the browser and opened in Apple's AR Quick Look | `wall-usdz.ts` |
+| Anything else | A note that this needs a phone | `components/wall-view.tsx` |
+
+`wall-view.tsx` is the only part the page loads up front; three and the XR
+library arrive when a phone that can use them opens the view.
+
+**Trying it.** The camera needs HTTPS, so on a phone use `npm run dev:https`
+and open the *Network* address it prints (accept the certificate warning). Next
+blocks dev assets requested from another host: add the laptop's address to
+`allowedDevOrigins` in `next.config.ts` for that session. On a desktop, add
+`?wall-emulator` to a work's address in development and the Android scene runs
+inside the XR library's emulator, in a synthetic room. The `overrides` block
+in `package.json` exists for that emulator — it ships its own older three, and
+is pinned to ours.
 
 ---
 
@@ -163,6 +200,8 @@ src/
 │   │   ├── queries.ts       # paintingKeys, queryOptions, hooks, mutations
 │   │   ├── plates.ts        # the five house colours
 │   │   ├── hits.ts          # seeded brush placement + contain-fit maths
+│   │   ├── wall.ts          # AR: which machine, how big, how thick
+│   │   ├── wall-usdz.ts     # AR on iPhone: the work as a USDZ file
 │   │   └── components/
 │   ├── artist/              # same four files
 │   ├── content/             # same four + sections.ts (the editor's layout)
@@ -263,10 +302,16 @@ carry every page, gallery and desk alike:
 
 - **`.domino`** (globals.css) — put it on a container and its direct children
   arrive one after another. Pure CSS, so it plays on load with no script. Used
-  for whatever is on screen when a page opens.
+  for whatever is on screen when a page opens. The most important piece falls
+  first: `--domino-order` on a piece overrides its position in the row, which
+  is how the hero's picture leads the copy that precedes it in the markup.
+  The header always arrives first — the section after it waits
+  `--domino-header-beat` — and `--domino-pace` multiplies every domino time on
+  the site (1.5), so the tempo is one number. On the desk the sidebar plays
+  the header's part.
 - **`<Reveal>`** (`components/motion`) — the same cascade, held back until the
-  section scrolls into view. Used for everything below the fold. `amount`
-  sets how much must be on screen first (the showcase waits for half). A
+  section is half in view (or fills half the screen, for a long one). Used for
+  everything below the fold, one per section. `amount` overrides the half. A
   `.domino` container nested inside a Reveal waits with it, so a busy section
   plays as one series: give each inner container a `--domino-base` and its
   pieces fall after the ones before.
@@ -316,6 +361,17 @@ physical on purpose — a brush stroke does not mirror.
 
 - **The page title and description in `layout.tsx` are not editable** from the
   desk; everything else a visitor reads is.
+
+- **"View in your room" has been run in the emulator, not on a phone.** The
+  Android scene was exercised in the XR emulator (wall and floor placement,
+  move, done) and the iPhone file was checked for shape (a valid USDZ, metres,
+  plane anchoring, scaling locked). Neither has been held up to a real wall
+  yet. The thing most likely to need a turn is which way up Quick Look hangs
+  the work — `work.rotation.x` in `wall-usdz.ts`.
+
+- **Phones find textured surfaces, not blank ones.** A plain white wall can
+  take a while to register; a corner, a skirting board or a piece of furniture
+  in view helps. That is the phone's tracking, not something the page can fix.
 
 - **Six of the twelve works have no photograph.** The handoff bundle shipped
   images for six paintings, three hero works, the portrait and three studio

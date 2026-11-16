@@ -35,6 +35,14 @@ const storedPainting = z.object({
   inStock: z.boolean(),
   /** In viewing order. The first is the cover; an empty list is "no photograph yet". */
   images: z.array(storedImage),
+  /**
+   * The work's real size, in centimetres — what the view-on-your-wall scales
+   * the picture to. The "90 × 120 cm" in `copy.meta` is a caption, written
+   * per language; this is the measurement. Null until the studio enters it.
+   */
+  sizeCm: z
+    .object({ width: z.number().positive(), height: z.number().positive() })
+    .nullable(),
   copy: z.object({ en: storedCopy, ar: storedCopy }),
   createdAt: z.string(),
   updatedAt: z.string(),

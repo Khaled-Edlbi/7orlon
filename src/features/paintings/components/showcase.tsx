@@ -75,7 +75,7 @@ export function Showcase({ sectionRef }: { sectionRef?: React.Ref<HTMLElement> }
     // then the heading, then the picture, then the label a line at a time,
     // and last the controls. The delays below are that order, in
     // milliseconds: heading 0 · picture 260 · label 520–880 · controls 1000+.
-    <Reveal asChild amount={0.5}>
+    <Reveal asChild>
       <section
         id="collection"
         ref={sectionRef}

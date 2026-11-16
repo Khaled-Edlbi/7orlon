@@ -34,6 +34,11 @@
 
   /* Everything that moves in this design moves on this curve. */
   --ease-atelier: cubic-bezier(0.22, 0.7, 0.2, 1);
+
+  /* The one exception: the header changing width. The curve above does half
+     its travel in the first sixth of its time, which reads as a snap on a
+     strip a thousand pixels wide. This one leaves slowly and lands slowly. */
+  --ease-settle: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* The Broadsheet spacing scale (density 1.25×) the prototype was laid out on.
@@ -273,11 +278,22 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      /* Without this a domino would sit invisible for its whole delay and
+         then blink in — the wait is part of the motion being declined. */
+      animation-delay: 0s !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
   }
+}
+
+/* A domino's place in its row, when that is not its place in the markup. No
+   initial value, so an unordered piece falls back to its position; no
+   inheritance, so the order stops at the piece it was given to. */
+@property --domino-order {
+  syntax: "*";
+  inherits: false;
 }
 
 @layer components {
@@ -306,6 +322,14 @@
    * last. Nest it (a page, then the list inside the page) and give the inner
    * one a `--domino-base` so its first piece falls after the outer one's.
    *
+   * The piece that matters most falls first, wherever it sits in the markup:
+   * `--domino-order` on a piece replaces its position in the row (0 is the
+   * front). It is registered below as non-inheriting, so ordering a container
+   * does not reorder the pieces inside it. A nested container's own
+   * `--domino-base` and `--domino-step` time the container itself as well as
+   * its pieces — give it order 0 and it lands exactly on its base, then its
+   * pieces follow: parent, then children.
+   *
    * Pure CSS on purpose: the animation runs whenever the elements mount, so a
    * page that is re-keyed on navigation replays it with no script at all.
    * `backwards`, not `both` — once a piece has landed it holds no transform,
@@ -318,10 +342,60 @@
     }
   }
 
+  /**
+   * The tempo of every entrance on the site, in one number. Each `--domino-*`
+   * time in the markup is written at pace 1 and multiplied by this — delays
+   * and the fade itself alike — so the whole site slows or quickens together
+   * and the proportions between pieces never change. At 1.5 a piece takes
+   * 900ms to arrive and neighbours are a clear beat apart: nothing races.
+   * The desk moves at the same pace as the gallery.
+   */
+  :root {
+    --domino-pace: 1.5;
+    /* How long the header has the page to itself before anything follows. */
+    --domino-header-beat: 300ms;
+    /* How long the first section then has before one below it may start. */
+    --domino-top-beat: 700ms;
+  }
+
+  /* A desk page opens with a three-line heading, not a hero: what follows it
+     on the same screen need not wait as long. */
+  .desk {
+    --domino-top-beat: 360ms;
+  }
+
+  /**
+   * The header always arrives first. Whatever opens a page beneath it — the
+   * section straight after the header, and any `<Reveal>` that is already on
+   * screen when the page opens — starts a beat later, and its nested cascades
+   * inherit the wait. Sections reached by scrolling do not: the header is long
+   * since there.
+   *
+   * The desk's header is its sidebar. The shell puts `.domino-opening` on the
+   * first page it shows; pages reached from the sidebar after that find it
+   * already standing, and start at once.
+   */
+  .island-dock + *,
+  .domino-opening {
+    --domino-lead: var(--domino-header-beat);
+  }
+
+  /* A second section sharing the screen with the page's first one when the
+     page opens (a short hero on a tall screen): it lets the first section's
+     main pieces land before it starts, so the page still reads top to bottom. */
+  .domino-following {
+    --domino-lead: calc(var(--domino-header-beat) + var(--domino-top-beat));
+  }
+
   .domino > * {
-    animation: domino-in 0.6s var(--ease-atelier) backwards;
+    animation: domino-in calc(0.6s * var(--domino-pace, 1)) var(--ease-atelier)
+      backwards;
     animation-delay: calc(
-      var(--domino-base, 0ms) + var(--domino-step, 70ms) * var(--n, 0)
+      (
+          var(--domino-lead, 0ms) + var(--domino-base, 0ms) +
+            var(--domino-step, 70ms) * var(--domino-order, var(--n, 0))
+        ) *
+        var(--domino-pace, 1)
     );
   }
 

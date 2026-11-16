@@ -27,7 +27,7 @@ export function ArtistPage() {
       />
 
       {/* --- portrait and introduction --------------------------------- */}
-      <section className="domino mx-auto grid max-w-[1440px] grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center [--domino-step:160ms] gap-[clamp(32px,6vw,96px)] px-[clamp(20px,5vw,72px)] pt-[clamp(28px,6vh,80px)] pb-[clamp(40px,8vh,96px)]">
+      <section className="domino mx-auto grid max-w-[1440px] grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-[clamp(32px,6vw,96px)] px-[clamp(20px,5vw,72px)] pt-[clamp(28px,6vh,80px)] pb-[clamp(40px,8vh,96px)]">
         <div className="relative isolate mx-auto aspect-[4/5] max-h-[70vh] w-full max-w-[460px]">
           <Brush
             shape="splotch"
@@ -53,7 +53,9 @@ export function ArtistPage() {
           </div>
         </div>
 
-        <div className="domino relative z-10 flex max-w-[600px] flex-col gap-[var(--space-4)] [--domino-base:160ms] [--domino-step:80ms]">
+        {/* The portrait leads; the copy follows on the hero's timing — the
+            column lands on its base (order 0), then its lines one by one. */}
+        <div className="domino relative z-10 flex max-w-[600px] flex-col gap-[var(--space-4)] [--domino-order:0] [--domino-base:320ms] [--domino-step:90ms]">
           <p className="m-0 flex items-center gap-2.5 text-[13px] tracking-[0.14em] uppercase">
             <Brush shape="wide" color="#F7A3B8" className="h-3 w-[38px]" />
             {t.aKicker}
@@ -150,7 +152,8 @@ export function ArtistPage() {
           </p>
         </div>
 
-        <div className="domino [--domino-base:140ms] [--domino-step:110ms]">
+        {/* After the statement's two lines: lands on its base, then its own. */}
+        <div className="domino [--domino-order:0] [--domino-base:220ms] [--domino-step:110ms]">
           <h2 className="relative isolate m-0 mb-[var(--space-3)] inline-block text-[clamp(28px,3vw,42px)] font-semibold tracking-[-0.02em]">
             <Brush
               shape="line4"
@@ -173,13 +176,14 @@ export function ArtistPage() {
       </Reveal>
 
       {/* --- the studio ------------------------------------------------ */}
+      <Reveal asChild>
       <section className="mx-auto max-w-[1440px] px-[clamp(20px,5vw,72px)] pb-[clamp(40px,8vh,96px)]">
         <p className="m-0 mb-[var(--space-4)] flex items-center gap-2.5 text-[13px] tracking-[0.14em] uppercase">
           <Brush shape="wide" color="#F5D95A" className="h-3 w-[38px]" />
           {t.aStudio}
         </p>
 
-        <Reveal className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-[var(--space-4)] [--domino-step:140ms]">
+        <div className="domino grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-[var(--space-4)] [--domino-order:0] [--domino-base:140ms] [--domino-step:140ms]">
           {profile.studioPhotos.map((photo, k) => (
             <figure
               key={photo.id}
@@ -202,8 +206,9 @@ export function ArtistPage() {
               </div>
             </figure>
           ))}
-        </Reveal>
+        </div>
       </section>
+      </Reveal>
 
       {/* --- milestones ------------------------------------------------ */}
       <Reveal asChild>
@@ -224,8 +229,8 @@ export function ArtistPage() {
         </h2>
 
         <div>
-          <Reveal asChild>
-          <dl className="m-0 grid [--domino-step:45ms] grid-cols-[auto_minmax(0,1fr)] gap-x-[var(--space-6)] gap-y-[var(--space-3)] text-base">
+          {/* Part of the section's series: the years follow the heading. */}
+          <dl className="domino m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-[var(--space-6)] gap-y-[var(--space-3)] text-base [--domino-base:140ms] [--domino-step:45ms]">
             {profile.milestones.map((m) => (
               <React.Fragment key={m.id}>
                 <dt className="text-ink-mute font-semibold">
@@ -235,7 +240,6 @@ export function ArtistPage() {
               </React.Fragment>
             ))}
           </dl>
-          </Reveal>
         </div>
       </section>
       </Reveal>

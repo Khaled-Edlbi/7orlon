@@ -64,7 +64,7 @@ export function PaintingsAdmin() {
       {paintings.length === 0 ? (
         <p className="text-ink-mute m-0 text-lg">{a.pEmpty}</p>
       ) : (
-        <ol className="domino m-0 flex list-none flex-col gap-0.5 p-0 [--domino-base:120ms] [--domino-step:45ms]">
+        <ol className="domino m-0 flex list-none flex-col gap-0.5 p-0 [--domino-order:0] [--domino-base:240ms] [--domino-step:45ms]">
           {paintings.map((painting, index) => (
             <PaintingRow
               key={painting.id}

@@ -5,10 +5,9 @@ import * as React from "react";
 import Link from "next/link";
 
 import { BrushButton } from "@/components/brush";
-import { ISLAND, ISLAND_DOCK } from "@/components/site/site-header";
+import { island, islandDock } from "@/components/site/site-header";
 import { useScrolled } from "@/hooks/use-scrolled";
 import { useT } from "@/hooks/use-t";
-import { cn } from "@/lib/utils";
 
 /**
  * The header the artist page and a work's page wear: one way back, and
@@ -27,8 +26,8 @@ export function BackHeader({
   const scrolled = useScrolled();
 
   return (
-    <header className={ISLAND_DOCK}>
-      <div className={cn(ISLAND, scrolled ? "atelier-veil" : "bg-transparent")}>
+    <header className={islandDock(scrolled)}>
+      <div className={island(scrolled)}>
         <BrushButton
           asChild
           shape="wide"

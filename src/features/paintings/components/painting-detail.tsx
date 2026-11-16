@@ -11,6 +11,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { EnquiryForm } from "@/features/paintings/components/enquiry-form";
 import { ImageSwitcher } from "@/features/paintings/components/image-switcher";
 import { StockTag } from "@/features/paintings/components/stock-tag";
+import { canHang, WallView } from "@/features/paintings/components/wall-view";
 import { ZoomOverlay } from "@/features/paintings/components/zoom-overlay";
 import { PLATE, STRONG } from "@/features/paintings/plates";
 import { usePainting, usePaintings } from "@/features/paintings/queries";
@@ -23,6 +24,8 @@ export function PaintingDetail({ slug }: { slug: string }) {
   const { data: list } = usePaintings();
 
   const [zoomed, setZoomed] = React.useState(false);
+  const [onWall, setOnWall] = React.useState(false);
+  const closeWall = React.useCallback(() => setOnWall(false), []);
 
   // Which of the work's photographs is up. Clamped rather than trusted: the
   // studio can remove a picture while this page is open.
@@ -33,9 +36,9 @@ export function PaintingDetail({ slug }: { slug: string }) {
 
   // ← and → swap photographs, the way they walk the collection on the front
   // page — but not while someone is typing an enquiry, and not under the
-  // full-screen view, which has its own keys.
+  // full-screen view or the wall view, which have their own keys.
   React.useEffect(() => {
-    if (images.length < 2 || zoomed) return;
+    if (images.length < 2 || zoomed || onWall) return;
 
     const onKey = (e: KeyboardEvent) => {
       if (
@@ -55,7 +58,7 @@ export function PaintingDetail({ slug }: { slug: string }) {
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [images.length, rtl, shot, zoomed]);
+  }, [images.length, onWall, rtl, shot, zoomed]);
 
   const all = list.paintings;
   const index = Math.max(
@@ -91,8 +94,9 @@ export function PaintingDetail({ slug }: { slug: string }) {
         {shown ? (
           // Every photograph is stacked in the same place and only the chosen
           // one is opaque, so swapping is a cross-fade and the next picture is
-          // already loaded by the time it is asked for.
-          <div className="relative h-full w-full">
+          // already loaded by the time it is asked for. Order 0: the work is
+          // the first thing to land, with the plate behind it.
+          <div className="relative h-full w-full [--domino-order:0]">
             {images.map((image, k) => (
               <div
                 key={image.url}
@@ -140,9 +144,19 @@ export function PaintingDetail({ slug }: { slug: string }) {
         )}
       </div>
 
-      {/* --- what it is ------------------------------------------------ */}
-      <div className="mx-auto grid max-w-[1440px] grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-start gap-[clamp(32px,6vw,96px)] px-[clamp(20px,5vw,72px)] pt-[clamp(40px,7vh,80px)] pb-[clamp(60px,10vh,120px)]">
-        <Reveal className="flex max-w-[620px] flex-col gap-[var(--space-4)]">
+      {/* --- what it is ------------------------------------------------
+          One section, one series, fired when half of it is on screen. The
+          copy leads, a line at a time (0–360ms); then the specifications
+          column (540ms), its rows, and last the previous/next links. Each
+          parent lands before its children. Pace-1 times, as everywhere.
+
+          Two parts keep a trigger of their own so they are never played to
+          nobody: the enquiry form, which sits a screen further down, and the
+          specifications, which are below the form once the columns stack.
+          Side by side the specifications are already on screen when the
+          section fires, so they simply take their place in the series. */}
+      <Reveal className="mx-auto grid max-w-[1440px] grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-start gap-[clamp(32px,6vw,96px)] px-[clamp(20px,5vw,72px)] pt-[clamp(40px,7vh,80px)] pb-[clamp(60px,10vh,120px)]">
+        <div className="domino flex max-w-[620px] flex-col gap-[var(--space-4)] [--domino-step:90ms]">
           <p className="text-ink-mute m-0 text-[13px] tracking-[0.14em] uppercase">
             {copy.meta}
           </p>
@@ -200,18 +214,34 @@ export function PaintingDetail({ slug }: { slug: string }) {
             >
               <a href="#enquire">{t.enquire}</a>
             </BrushButton>
+            {/* Offered once the studio has measured the work: without a real
+                size there is nothing true to show in a room. */}
+            {canHang(painting) && (
+              <BrushButton
+                type="button"
+                shape="line4"
+                color="var(--color-plate-butter)"
+                tilt={-1}
+                className="text-foreground"
+                onClick={() => setOnWall(true)}
+              >
+                {t.wallView}
+              </BrushButton>
+            )}
           </div>
 
           <p className="text-ink-soft mt-[var(--space-2)] mb-0 text-lg leading-[1.65] text-pretty">
             {copy.description}
           </p>
 
-          <div className="mt-[var(--space-6)]">
+          <Reveal className="mt-[var(--space-6)]">
             <EnquiryForm slug={painting.slug} title={copy.title} />
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
-        <Reveal className="flex flex-col gap-[var(--space-4)] pt-[clamp(0px,4vh,40px)]">
+        {/* The 540ms wait is for the copy beside it, so it only applies once
+            the columns are side by side (the grid splits at about 900px). */}
+        <Reveal className="flex flex-col gap-[var(--space-4)] pt-[clamp(0px,4vh,40px)] [--domino-order:0] [--domino-step:90ms] min-[900px]:[--domino-base:540ms]">
           <h3 className="relative isolate m-0 inline-block text-[22px] font-semibold tracking-[-0.01em]">
             <Brush
               shape="line4"
@@ -227,7 +257,8 @@ export function PaintingDetail({ slug }: { slug: string }) {
             {t.specs}
           </h3>
 
-          <dl className="domino mt-[var(--space-2)] grid grid-cols-[auto_minmax(0,1fr)] gap-x-[var(--space-6)] gap-y-[var(--space-2)] text-[15px] [--domino-base:140ms] [--domino-step:35ms]">
+          {/* One beat after the heading: the column's base plus its 90ms step. */}
+          <dl className="domino mt-[var(--space-2)] grid grid-cols-[auto_minmax(0,1fr)] gap-x-[var(--space-6)] gap-y-[var(--space-2)] text-[15px] [--domino-order:0] [--domino-base:90ms] [--domino-step:35ms] min-[900px]:[--domino-base:630ms]">
             <Spec label={t.medium} value={copy.medium} />
             <Spec label={t.size} value={copy.size} />
             <Spec label={t.year} value={copy.year} />
@@ -238,7 +269,8 @@ export function PaintingDetail({ slug }: { slug: string }) {
             <Spec label={t.certificate} value={t.certificateV} />
           </dl>
 
-          <div className="mt-[var(--space-4)] flex flex-wrap gap-[var(--space-3)]">
+          {/* Order 6: after the last specification row has started. */}
+          <div className="mt-[var(--space-4)] flex flex-wrap gap-[var(--space-3)] [--domino-order:6]">
             <Link
               href={`/works/${previous.slug}`}
               className="inline-flex items-baseline gap-2 text-[15px]"
@@ -257,7 +289,7 @@ export function PaintingDetail({ slug }: { slug: string }) {
             </Link>
           </div>
         </Reveal>
-      </div>
+      </Reveal>
 
       <SiteFooter />
 
@@ -268,6 +300,8 @@ export function PaintingDetail({ slug }: { slug: string }) {
           onClose={() => setZoomed(false)}
         />
       )}
+
+      {onWall && <WallView painting={painting} onClose={closeWall} />}
     </>
   );
 }

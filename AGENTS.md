@@ -51,9 +51,21 @@ spell out.
   runs right-to-left in Arabic. Decorative marks stay physical on purpose.
 - Entrances are dominoes. Content on screen when a page opens gets the
   `.domino` class on its container; content below the fold is wrapped in
-  `<Reveal>` from `@/components/motion`, which plays the same cascade when it
-  scrolls into view. Neither goes on an element whose direct children set
+  `<Reveal>` from `@/components/motion`, which plays the same cascade once
+  half of the section is in view. Put `<Reveal>` on the section itself and
+  sequence what is inside with nested `.domino` containers — not one Reveal
+  per piece. Neither goes on an element whose direct children set
   `opacity` inline (the showcase's stacked slides) — the inline style wins.
+  The cascade runs by importance, not markup order: the piece that matters
+  most (a hero's picture) falls first — give it `[--domino-order:0]` — and a
+  parent lands before its children (see the hero for the pattern). The header
+  always leads: the section straight after it waits `--domino-header-beat`
+  automatically, so do not start page content at 0 by other means. Write
+  `--domino-*` times at pace 1; `--domino-pace` in `globals.css` scales every
+  entrance, gallery and desk alike, and is the one place to change the tempo.
+  On the desk the sidebar is the header: the shell makes the first page wait
+  for it, and a page's body starts at `--domino-base:240ms`, after the three
+  lines of `<DeskHeading>`.
   Page-to-page fades are automatic: `<PageTransition>` in the root layout
   handles every `<Link>`, so do not add per-link handlers.
 - Interface copy goes in `src/lib/i18n.ts` and must be added to **both**
