@@ -52,6 +52,7 @@ function serializePainting(row: StoredPainting, position: number): Painting {
     inStock: row.inStock,
     image: row.images[0] ?? null,
     images: row.images,
+    sizeCm: row.sizeCm,
     copy: { en: copyOf("en"), ar: copyOf("ar") },
   };
 }
@@ -123,6 +124,7 @@ function applyInput(row: StoredPainting, input: PaintingInput): void {
   row.priceCents = Number(input.priceMinor);
   row.inStock = input.inStock;
   row.images = input.images;
+  row.sizeCm = input.sizeCm;
   row.copy = input.copy;
   row.updatedAt = new Date().toISOString();
 }

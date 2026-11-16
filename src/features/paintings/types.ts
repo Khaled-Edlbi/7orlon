@@ -18,6 +18,12 @@ export const imageSchema = z.object({
   height: z.number().int().positive(),
 });
 
+/** A work's real size in centimetres: what the wall view scales it to. */
+export const sizeCmSchema = z.object({
+  width: z.number().positive(),
+  height: z.number().positive(),
+});
+
 export const paintingCopySchema = z.object({
   title: z.string(),
   /** "Oil on linen · 90 × 120 cm · 2025" */
@@ -42,6 +48,8 @@ export const paintingSchema = z.object({
   image: imageSchema.nullable(),
   /** Every photograph of the work, in viewing order. */
   images: z.array(imageSchema),
+  /** Null until the studio has measured it; the wall view needs it. */
+  sizeCm: sizeCmSchema.nullable(),
   copy: z.record(localeSchema, paintingCopySchema),
 });
 
@@ -93,6 +101,14 @@ const copyInputSchema = z.object({
 /** How many photographs one work can carry. */
 export const MAX_PAINTING_IMAGES = 12;
 
+/** Ten metres a side: generous for a painting, and a typo past it is caught. */
+export const MAX_SIDE_CM = 1000;
+
+const sideCmSchema = z
+  .number()
+  .positive("Enter a size in centimetres.")
+  .max(MAX_SIDE_CM, "That is larger than a wall.");
+
 /** Everything the studio can set on a work. Used to create and to replace. */
 export const paintingInputSchema = z.object({
   slug: slugSchema,
@@ -101,6 +117,8 @@ export const paintingInputSchema = z.object({
   inStock: z.boolean(),
   /** In viewing order; the first becomes the cover. */
   images: z.array(localImageSchema).max(MAX_PAINTING_IMAGES),
+  /** Both sides or neither: half a measurement cannot be drawn. */
+  sizeCm: z.object({ width: sideCmSchema, height: sideCmSchema }).nullable(),
   copy: z.object({ en: copyInputSchema, ar: copyInputSchema }),
 });
 
@@ -169,6 +187,7 @@ export const ratesSchema = z.object({
 export type PaintingLocale = z.infer<typeof localeSchema>;
 export type PaintingImage = z.infer<typeof imageSchema>;
 export type PaintingCopy = z.infer<typeof paintingCopySchema>;
+export type SizeCm = z.infer<typeof sizeCmSchema>;
 export type Painting = z.infer<typeof paintingSchema>;
 export type PaintingList = z.infer<typeof paintingListSchema>;
 export type HeroSlide = z.infer<typeof heroSlideSchema>;

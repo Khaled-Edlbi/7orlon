@@ -63,11 +63,14 @@ type Draft = {
   inStock: boolean;
   /** In viewing order; the first is the cover. */
   images: PaintingImage[];
+  /** Centimetres as typed: "90" or "90.5". Both empty means not measured. */
+  widthCm: string;
+  heightCm: string;
   en: CopyDraft;
   ar: CopyDraft;
 };
 
-type Problem = "slug" | "price" | "title";
+type Problem = "slug" | "price" | "title" | "size";
 
 const EMPTY_COPY: CopyDraft = {
   title: "",
@@ -85,6 +88,8 @@ function draftOf(painting?: Painting): Draft {
       plate: "blush",
       inStock: true,
       images: [],
+      widthCm: "",
+      heightCm: "",
       en: EMPTY_COPY,
       ar: EMPTY_COPY,
     };
@@ -101,6 +106,8 @@ function draftOf(painting?: Painting): Draft {
     plate: painting.plate,
     inStock: painting.inStock,
     images: painting.images,
+    widthCm: painting.sizeCm ? String(painting.sizeCm.width) : "",
+    heightCm: painting.sizeCm ? String(painting.sizeCm.height) : "",
     en: copyOf("en"),
     ar: copyOf("ar"),
   };
@@ -120,6 +127,16 @@ function majorToMinor(major: string): string | null {
   if (!match) return null;
   const minor = `${match[1]}${(match[2] ?? "").padEnd(2, "0")}`;
   return minor.replace(/^0+(?=\d)/, "");
+}
+
+/**
+ * "90" → 90, "" → null. Anything else is NaN, which the schema refuses — so a
+ * mistyped side is reported instead of quietly saved as "not measured".
+ */
+function sideOf(text: string): number | null {
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  return /^\d+(?:\.\d+)?$/.test(trimmed) ? Number(trimmed) : Number.NaN;
 }
 
 /** "Morning in the Courtyard" → "morning-in-the-courtyard". */
@@ -186,12 +203,19 @@ export function PaintingForm({ painting }: { painting?: Painting }) {
     event.preventDefault();
 
     const priceMinor = majorToMinor(draft.price);
+    const width = sideOf(draft.widthCm);
+    const height = sideOf(draft.heightCm);
     const candidate = {
       slug: draft.slug.trim(),
       plate: draft.plate,
       priceMinor: priceMinor ?? "",
       inStock: draft.inStock,
       images: draft.images,
+      // One side without the other is half a measurement: NaN makes it fail.
+      sizeCm:
+        width === null && height === null
+          ? null
+          : { width: width ?? Number.NaN, height: height ?? Number.NaN },
       copy: {
         en: {
           title: draft.en.title,
@@ -213,6 +237,7 @@ export function PaintingForm({ painting }: { painting?: Painting }) {
       for (const issue of parsed.error.issues) {
         if (issue.path[0] === "slug") found.add("slug");
         if (issue.path[0] === "priceMinor") found.add("price");
+        if (issue.path[0] === "sizeCm") found.add("size");
         if (issue.path.includes("title")) found.add("title");
       }
       setProblems(found);
@@ -353,6 +378,42 @@ export function PaintingForm({ painting }: { painting?: Painting }) {
                 </p>
               )}
             </Field>
+
+            <Field>
+              <FieldLabel htmlFor="painting-width">{a.pWidthCm}</FieldLabel>
+              <Input
+                id="painting-width"
+                dir="ltr"
+                inputMode="decimal"
+                value={draft.widthCm}
+                aria-invalid={problems.has("size") || undefined}
+                className="aria-invalid:border-destructive"
+                onChange={(event) => set({ widthCm: event.target.value })}
+              />
+            </Field>
+
+            <Field>
+              <FieldLabel htmlFor="painting-height">{a.pHeightCm}</FieldLabel>
+              <Input
+                id="painting-height"
+                dir="ltr"
+                inputMode="decimal"
+                value={draft.heightCm}
+                aria-invalid={problems.has("size") || undefined}
+                className="aria-invalid:border-destructive"
+                onChange={(event) => set({ heightCm: event.target.value })}
+              />
+            </Field>
+
+            <div className="col-span-full -mt-2">
+              {problems.has("size") ? (
+                <FieldError>{a.pRealSizeInvalid}</FieldError>
+              ) : (
+                <p className="text-ink-mute m-0 text-xs leading-[1.6]">
+                  {a.pRealSizeHint}
+                </p>
+              )}
+            </div>
           </div>
 
           <label className="flex cursor-pointer items-center gap-3 self-start">

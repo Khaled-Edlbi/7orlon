@@ -11,6 +11,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { EnquiryForm } from "@/features/paintings/components/enquiry-form";
 import { ImageSwitcher } from "@/features/paintings/components/image-switcher";
 import { StockTag } from "@/features/paintings/components/stock-tag";
+import { canHang, WallView } from "@/features/paintings/components/wall-view";
 import { ZoomOverlay } from "@/features/paintings/components/zoom-overlay";
 import { PLATE, STRONG } from "@/features/paintings/plates";
 import { usePainting, usePaintings } from "@/features/paintings/queries";
@@ -23,6 +24,8 @@ export function PaintingDetail({ slug }: { slug: string }) {
   const { data: list } = usePaintings();
 
   const [zoomed, setZoomed] = React.useState(false);
+  const [onWall, setOnWall] = React.useState(false);
+  const closeWall = React.useCallback(() => setOnWall(false), []);
 
   // Which of the work's photographs is up. Clamped rather than trusted: the
   // studio can remove a picture while this page is open.
@@ -33,9 +36,9 @@ export function PaintingDetail({ slug }: { slug: string }) {
 
   // ← and → swap photographs, the way they walk the collection on the front
   // page — but not while someone is typing an enquiry, and not under the
-  // full-screen view, which has its own keys.
+  // full-screen view or the wall view, which have their own keys.
   React.useEffect(() => {
-    if (images.length < 2 || zoomed) return;
+    if (images.length < 2 || zoomed || onWall) return;
 
     const onKey = (e: KeyboardEvent) => {
       if (
@@ -55,7 +58,7 @@ export function PaintingDetail({ slug }: { slug: string }) {
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [images.length, rtl, shot, zoomed]);
+  }, [images.length, onWall, rtl, shot, zoomed]);
 
   const all = list.paintings;
   const index = Math.max(
@@ -211,6 +214,20 @@ export function PaintingDetail({ slug }: { slug: string }) {
             >
               <a href="#enquire">{t.enquire}</a>
             </BrushButton>
+            {/* Offered once the studio has measured the work: without a real
+                size there is nothing true to show in a room. */}
+            {canHang(painting) && (
+              <BrushButton
+                type="button"
+                shape="line4"
+                color="var(--color-plate-butter)"
+                tilt={-1}
+                className="text-foreground"
+                onClick={() => setOnWall(true)}
+              >
+                {t.wallView}
+              </BrushButton>
+            )}
           </div>
 
           <p className="text-ink-soft mt-[var(--space-2)] mb-0 text-lg leading-[1.65] text-pretty">
@@ -283,6 +300,8 @@ export function PaintingDetail({ slug }: { slug: string }) {
           onClose={() => setZoomed(false)}
         />
       )}
+
+      {onWall && <WallView painting={painting} onClose={closeWall} />}
     </>
   );
 }
